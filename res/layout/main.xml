@@ -1,19 +1,35 @@
-<android.support.v4.widget.DrawerLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <!-- The main content view -->
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="hello"
-            android:id="@+id/btn"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/coord"
+              android:text="坐标"
             />
-    <!-- The navigation drawer -->
-    <TextView android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="start"
-              android:background="#fff"
+
+    <ToggleButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textOff="定位关"
+                  android:textOn="定位开"
+                  android:id="@+id/locateSwitch"
             />
-</android.support.v4.widget.DrawerLayout>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点"
+                android:layout_margin="8dp"
+                android:id="@+id/btnPoint"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="线"
+                android:layout_margin="8dp"
+                android:id="@+id/btnLine"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="面"
+                android:layout_margin="8dp"
+                android:id="@+id/btnArea"/>
+</LinearLayout>
