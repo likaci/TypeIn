@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:layout_margin="8dp"
+              android:text="信息1:"
+            />
+    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:layout_margin="8dp"
+            />
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:layout_margin="8dp"
+              android:text="信息2:"
+            />
+    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:layout_margin="8dp"
+            />
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="发送"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            />
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="取消"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            />
+    </RelativeLayout>
+</LinearLayout>

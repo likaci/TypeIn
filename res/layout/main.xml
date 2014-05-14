@@ -1,35 +1,70 @@
-<LinearLayout
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:id="@+id/sliding_layout"
         android:layout_height="fill_parent"
-        >
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:id="@+id/coord"
-              android:text="坐标"
-            />
+        android:layout_width="fill_parent"
+        android:gravity="bottom"
+        sothree:panelHeight="0dp"
+        sothree:paralaxOffset="0dp"
+        sothree:shadowHeight="4dp"
+        sothree:overlay="true">
 
-    <ToggleButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:textOff="定位关"
-                  android:textOn="定位开"
-                  android:id="@+id/locateSwitch"
-            />
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="点"
-                android:layout_margin="8dp"
-                android:id="@+id/btnPoint"/>
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="线"
-                android:layout_margin="8dp"
-                android:id="@+id/btnLine"/>
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="面"
-                android:layout_margin="8dp"
-                android:id="@+id/btnArea"/>
-</LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
+                      android:layout_weight="5"
+                      android:orientation="vertical">
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
+                      android:layout_weight="1"
+                >
+            <ToggleButton
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textOff="定位关"
+                    android:textOn="定位开"
+                    android:id="@+id/locateSwitch"
+                    />
+            <TextView
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/coord"
+                    android:text="坐标: 未定位"
+                    />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
+                      android:layout_weight="4"
+                      android:orientation="horizontal" >
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="fill_parent"
+                    android:text="点"
+                    android:layout_margin="8dp"
+                    android:id="@+id/btnPoint"/>
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="fill_parent"
+                    android:text="线"
+                    android:layout_margin="8dp"
+                    android:id="@+id/btnLine"/>
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="fill_parent"
+                    android:text="面"
+                    android:layout_margin="8dp"
+                    android:id="@+id/btnArea"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                  android:background="#fff" >
+        <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                     android:id="@+id/measurePanel"
+                >
+        </FrameLayout>
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
