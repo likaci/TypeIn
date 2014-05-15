@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/location"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:showAsAction="ifRoom"
+        android:title="action_location"/>
+
+    <item
+            android:id="@+id/send"
+            android:icon="@android:drawable/ic_menu_send"
+            android:showAsAction="ifRoom"
+            android:title="发送"/>
+    <item
+            android:id="@+id/add"
+            android:icon="@android:drawable/ic_menu_add"
+            android:showAsAction="ifRoom"
+            android:title="发送"/>
+    <item
+            android:id="@+id/cancel"
+            android:icon="@android:drawable/ic_menu_close_clear_cancel"
+            android:showAsAction="ifRoom"
+            android:title="取消"/>
+</menu>

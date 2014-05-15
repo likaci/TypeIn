@@ -4,9 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 
 import java.util.ArrayList;
@@ -30,7 +28,48 @@ public class FragLine extends Fragment implements View.OnClickListener {
         linePointListView.setAdapter(listAdapter);
         view.findViewById(R.id.addPoint).setOnClickListener(this);
         view.findViewById(R.id.cancel).setOnClickListener(this);
+        ActionCallback callback = new ActionCallback();
+        activity.startActionMode(callback);
+
         return view;
+    }
+
+    class ActionCallback implements ActionMode.Callback {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            activity.getMenuInflater().inflate(R.menu.action_line,menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.add:
+                    if (activity.pubLocation == null) {
+                        Toast.makeText(getView().getContext(),"请先打开定位",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    listAdapter.add(activity.pubLocation);
+                    listAdapter.notifyDataSetChanged();
+                    break;
+                case R.id.cancel:
+                    activity.upPanelLayout.collapsePane();
+                    mode.finish();
+                    break;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+        }
     }
 
     @Override

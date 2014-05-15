@@ -7,12 +7,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import java.util.ArrayList;
 
 public class ActivityMain extends Activity implements View.OnClickListener, MenuItem.OnMenuItemClickListener{
     /**
@@ -28,7 +27,6 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
 
 
         upPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
@@ -53,6 +51,15 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
         final String provider = locationManager.getBestProvider(criteria,true);
         //final String provider = locationManager.getProvider(LocationManager.GPS_PROVIDER).getName();
         Log.i("Provider: ", provider + "");
+
+
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("点   xxxx,yyyy    上传完成");
+        list.add("面   xxxx,yyyy    上传中");
+        ArrayAdapter adapter = new ArrayAdapter(getBaseContext(),android.R.layout.simple_list_item_1,list);
+        ListView processList = (ListView)findViewById(R.id.processList);
+        processList.setAdapter(adapter);
+
 
         final LocationListener locationListener = new LocationListener() {
             @Override
@@ -93,6 +100,7 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
         switch (v.getId()) {
             case R.id.btnPoint:
                 FragPoint fragPoint = new FragPoint();
+                fragPoint.activity = this;
                 getFragmentManager().beginTransaction().replace(R.id.measurePanel,fragPoint).commit();
                 upPanelLayout.expandPane();
                 break;
@@ -115,10 +123,47 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
         MenuItem item = menu.add("定位");
         item.setIcon(R.drawable.ic_menu_gpsoff_dark);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ActionMode.Callback callback = new ActionMode.Callback() {
+                    @Override
+                    public boolean onCreateActionMode(final ActionMode mode, Menu menu) {
+                        MenuItem item = menu.add("取消");
+                        item.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+                        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                mode.finish();
+                                return false;
+                            }
+                        });
+                        return true;
+                    }
 
-        item = menu.add("测试");
-        item.setIcon(R.drawable.ic_launcher);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                    @Override
+                    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onDestroyActionMode(ActionMode mode) {
+                    }
+                };
+                startActionMode(callback);
+                return false;
+
+            }
+        });
+
+
+
+        getMenuInflater().inflate(R.menu.actions,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -139,4 +184,28 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
         }
         return false;
     }
+
+    class processListAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return null;
+        }
+    }
+
 }
