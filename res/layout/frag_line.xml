@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="2sp"
+            >
+        <TextView android:layout_width="0dp" android:layout_height="fill_parent"
+                  android:id="@+id/pointNum"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:text="序号"
+                />
+        <TextView android:layout_width="0dp" android:layout_height="fill_parent"
+                  android:id="@+id/pointCoord"
+                  android:layout_weight="5"
+                  android:gravity="center_vertical"
+                  android:text="坐标"
+                />
+    </LinearLayout>
+    <ListView android:layout_width="fill_parent" android:layout_height="0dp"
               android:id="@+id/linePointList"
               android:isScrollContainer="true"
+              android:layout_weight="1"
             >
     </ListView>
-    <RelativeLayout
-            android:id="@+id/controlPanel"
-            android:layout_alignParentBottom="true"
-            android:layout_width="fill_parent" android:layout_height="wrap_content">
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="发送"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                />
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="添加点"
-                android:layout_centerInParent="true"
-                android:id="@+id/addPoint"
-                />
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="取消"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="8dp"
-                android:id="@+id/cancel"
-                />
-    </RelativeLayout>
-</RelativeLayout>
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:layout_margin="8dp"
+              android:text="描述:"
+            />
+    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:layout_margin="8dp"
+              android:id="@+id/discription"
+            />
+</LinearLayout>

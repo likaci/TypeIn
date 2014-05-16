@@ -6,29 +6,17 @@
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
               android:layout_margin="8dp"
-              android:text="信息1:"
+              android:text="上传人:"
             />
     <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
               android:layout_margin="8dp"
             />
     <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
               android:layout_margin="8dp"
-              android:text="信息2:"
+              android:text="描述:"
             />
     <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
               android:layout_margin="8dp"
+              android:id="@+id/discription"
             />
-    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="发送"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="8dp"
-            />
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="取消"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            />
-    </RelativeLayout>
 </LinearLayout>

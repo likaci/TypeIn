@@ -6,12 +6,16 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ActivityMain extends Activity implements View.OnClickListener, MenuItem.OnMenuItemClickListener{
     /**
@@ -22,11 +26,19 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
     SlidingUpPanelLayout upPanelLayout;
     FrameLayout measurePanel;
     TextView coord;
+    ProcessListAdapter processListAdapter;
+
+    Runnable syncLocaltion;
+    Handler syncLocaltitonHandler;
+
+    ActionMode actionMode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+
 
 
         upPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
@@ -37,7 +49,6 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
         findViewById(R.id.btnPoint).setOnClickListener(this);
         findViewById(R.id.btnLine).setOnClickListener(this);
         findViewById(R.id.btnArea).setOnClickListener(this);
-
 
         coord = ((TextView) findViewById(R.id.coord));
         final LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
@@ -58,7 +69,8 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
         list.add("面   xxxx,yyyy    上传中");
         ArrayAdapter adapter = new ArrayAdapter(getBaseContext(),android.R.layout.simple_list_item_1,list);
         ListView processList = (ListView)findViewById(R.id.processList);
-        processList.setAdapter(adapter);
+        processListAdapter = new ProcessListAdapter();
+        processList.setAdapter(processListAdapter);
 
 
         final LocationListener locationListener = new LocationListener() {
@@ -96,17 +108,62 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
     }
 
     @Override
+    public void onActionModeFinished(ActionMode mode) {
+        super.onActionModeFinished(mode);
+    }
+
+    @Override
+    public void onActionModeStarted(ActionMode mode) {
+        actionMode = mode;
+
+
+        syncLocaltitonHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if ( msg.what == 1) {
+                    Date date = new Date(pubLocation.getTime());
+                    actionMode.setTitle(date.toString());
+                    actionMode.setSubtitle(pubLocation.getAccuracy() + "");
+                }
+                super.handleMessage(msg);
+            }
+        };
+
+        syncLocaltion = new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    SystemClock.sleep(1000);
+                    if (actionMode == null | pubLocation == null)
+                        return;
+                    Message msg = syncLocaltitonHandler.obtainMessage();
+                    msg.what = 1;
+                    msg.sendToTarget();
+                }
+            }
+        };
+        new Thread(syncLocaltion).start();
+        super.onActionModeStarted(mode);
+    }
+
+    @Override
+    protected void onResume() {
+        TextView tv = new TextView(getBaseContext());
+        tv.setText("坐标: xxx,yyy");
+        getActionBar().setCustomView(tv);
+        super.onResume();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnPoint:
-                FragPoint fragPoint = new FragPoint();
-                fragPoint.activity = this;
+                FragPoint fragPoint = new FragPoint(this);
                 getFragmentManager().beginTransaction().replace(R.id.measurePanel,fragPoint).commit();
                 upPanelLayout.expandPane();
                 break;
             case R.id.btnLine:
-                FragLine fragLine = new FragLine();
-                fragLine.activity = this;
+                FragLine fragLine = new FragLine(this);
                 getFragmentManager().beginTransaction().replace(R.id.measurePanel,fragLine).commit();
                 upPanelLayout.expandPane();
                 break;
@@ -119,7 +176,7 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         MenuItem item = menu.add("定位");
         item.setIcon(R.drawable.ic_menu_gpsoff_dark);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -160,11 +217,16 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
 
             }
         });
-
-
-
-        getMenuInflater().inflate(R.menu.actions,menu);
+        getMenuInflater().inflate(R.menu.actions, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                return false;
+            }
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
@@ -185,11 +247,19 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
         return false;
     }
 
-    class processListAdapter extends BaseAdapter {
+    class ProcessListAdapter extends BaseAdapter {
+
+        ArrayList<ProcessItem> items;
+
+        public ProcessListAdapter() {
+            items = new ArrayList<ProcessItem>();
+        }
+
 
         @Override
+
         public int getCount() {
-            return 0;
+            return items.size();
         }
 
         @Override
@@ -204,8 +274,20 @@ public class ActivityMain extends Activity implements View.OnClickListener, Menu
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return null;
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.item_process, null);
+            }
+            ((TextView)convertView.findViewById(R.id.processNum)).setText(String.valueOf(position));
+            ((TextView)convertView.findViewById(R.id.processType)).setText(items.get(position).type);
+            ((TextView)convertView.findViewById(R.id.precessStatus)).setText(items.get(position).status);
+            return convertView;
         }
+
+        public void add(ProcessItem item) {
+            items.add(item);
+            notifyDataSetChanged();
+        }
+
     }
 
 }
