@@ -25,7 +25,7 @@ public class FragPoint extends Fragment {
         View view = inflater.inflate(R.layout.frag_point,container,false);
         this.view = view;
         ActionCallback callback = new ActionCallback();
-        activity.startActionMode(callback);
+        activity.startActionMode(callback).setTitle("点测量");
         return view;
     }
 

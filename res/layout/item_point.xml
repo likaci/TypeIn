@@ -17,13 +17,11 @@
               android:layout_weight="5"
               android:gravity="center_vertical"
               android:text="坐标"
+              android:paddingRight="4dp"
             />
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:id="@+id/pointView"
-              android:text="查看"
-            />
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:id="@+id/pointDel"
-            android:text="删除"
+    <ImageView android:layout_width="32dp" android:layout_height="32dp"
+               android:layout_margin="4dp"
+               android:src="@android:drawable/ic_menu_delete"
+               android:id="@+id/itemDel"
             />
 </LinearLayout>

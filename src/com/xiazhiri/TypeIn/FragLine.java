@@ -19,7 +19,6 @@ public class FragLine extends Fragment {
     LinePointListAdapter listAdapter;
     ActivityMain activity;
     View view;
-    ActionMode actionMode;
 
     public FragLine(ActivityMain activity) {
         this.activity = activity;
@@ -35,8 +34,7 @@ public class FragLine extends Fragment {
         linePointListView.setAdapter(listAdapter);
 
         ActionCallback callback = new ActionCallback();
-        actionMode = activity.startActionMode(callback);
-
+        activity.startActionMode(callback).setTitle("线测量");
 
         return view;
     }
@@ -120,13 +118,21 @@ public class FragLine extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.item_point,null);
             }
             TextView tv = ((TextView) convertView.findViewById(R.id.pointNum));
             tv.setText( position + "");
             ((TextView) convertView.findViewById(R.id.pointCoord)).setText(locationList.get(position).getLatitude() + "," + locationList.get(position).getLongitude());
+
+            convertView.findViewById(R.id.itemDel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    locationList.remove(position);
+                    listAdapter.notifyDataSetChanged();
+                }
+            });
             return convertView;
         }
 
