@@ -36,25 +36,19 @@ public class FragLine extends Fragment {
 
         ActionCallback callback = new ActionCallback();
         actionMode = activity.startActionMode(callback);
-        actionMode.setTitle("坐标 xxxx,yyyy");
-        actionMode.setSubtitle("精度 x米 - x秒前");
 
 
         return view;
     }
-
-    @Override
-    public void onResume() {
-
-        super.onResume();
-    }
-
 
     class ActionCallback implements ActionMode.Callback {
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             activity.getMenuInflater().inflate(R.menu.action_line,menu);
+            if (activity.gpsEnable == true) {
+                menu.findItem(R.id.gpsSwithcer).setIcon(R.drawable.ic_menu_gpson_dark);
+            }
             return true;
         }
 
@@ -84,6 +78,9 @@ public class FragLine extends Fragment {
                     ProcessItem processItem = new ProcessItem("线",pointList,discription);
                     activity.processListAdapter.add(processItem);
                     mode.finish();
+                    break;
+                case R.id.gpsSwithcer:
+                    activity.toggleGps(item);
                     break;
             }
             return false;
